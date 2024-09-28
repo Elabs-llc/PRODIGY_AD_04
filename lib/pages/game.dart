@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -10,13 +11,33 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   bool firstTurn = true;
   List<String> displayCord = ['', '', '', '', '', '', '', '', ''];
+  int _oScore = 0;
+  int _xScore = 0;
+  int _filledBoxes = 0;
+  static var yellowFont = GoogleFonts.pressStart2p(
+    textStyle:
+        TextStyle(color: Color.fromARGB(255, 149, 226, 5), fontSize: 20.0),
+  );
+  static var wineFont = GoogleFonts.pressStart2p(
+    textStyle:
+        TextStyle(color: Color.fromARGB(255, 235, 11, 160), fontSize: 20.0),
+  );
+
+  static var whiteFont = GoogleFonts.pressStart2p(
+    textStyle: TextStyle(color: Colors.white, fontSize: 20.0),
+  );
+  static var whiteFont2 = GoogleFonts.pressStart2p(
+    textStyle: TextStyle(color: Colors.white, fontSize: 15.0),
+  );
 
   void _tapped(int index) {
     setState(() {
       if (firstTurn && displayCord[index] == '') {
         displayCord[index] = 'o';
+        _filledBoxes += 1;
       } else if (!firstTurn && displayCord[index] == '') {
         displayCord[index] = 'X';
+        _filledBoxes += 1;
       }
       firstTurn = !firstTurn;
       _checkWinner();
@@ -74,17 +95,65 @@ class _GameState extends State<Game> {
         displayCord[2] == displayCord[6] &&
         displayCord[2] != '') {
       _showDialog(displayCord[2]);
+    } else if (_filledBoxes == 9) {
+      _drawDialog();
     }
+  }
+
+  void _drawDialog() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('It\'s a DRAW'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _clearBoard();
+                },
+                child: Text('Restart'),
+              ),
+            ],
+          );
+        });
   }
 
   void _showDialog(String winner) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('$winner IS THE WINNER'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _clearBoard();
+                },
+                child: Text('Restart'),
+              ),
+            ],
           );
         });
+    if (winner == 'o') {
+      _oScore += 1;
+    } else if (winner == 'X') {
+      _xScore += 1;
+    }
+  }
+
+  void _clearBoard() {
+    setState(() {
+      //displayCord = ['', '', '', '', '', '', '', '', ''];
+      for (int i = 0; i < 9; i++) {
+        displayCord[i] = '';
+      }
+      firstTurn = false;
+      _filledBoxes = 0;
+    });
   }
 
   @override
@@ -92,25 +161,92 @@ class _GameState extends State<Game> {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: SafeArea(
-          child: GridView.builder(
-              itemCount: 9,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () => _tapped(index),
-                  child: Container(
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
-                    child: Center(
-                      child: Text(
-                        displayCord[index],
-                        style: TextStyle(color: Colors.white, fontSize: 40),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+              child: Column(
+            children: [
+              SizedBox(
+                width: 0,
+                height: 20.0,
+              ),
+              Center(
+                  child: Text(
+                'Score Board',
+                style: whiteFont,
+              )),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Text("Player O", style: yellowFont),
+                          Text(_oScore.toString(), style: whiteFont),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Column(
+                        children: [
+                          Text("Player X", style: wineFont),
+                          Text(_xScore.toString(), style: whiteFont),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )),
+          Expanded(
+            flex: 3,
+            child: GridView.builder(
+                itemCount: 9,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () => _tapped(index),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.grey)),
+                      child: Center(
+                        child: Text(
+                          displayCord[index],
+                          style: whiteFont,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              })),
+                  );
+                }),
+          ),
+          Expanded(
+              child: Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 0,
+                  height: 15.0,
+                ),
+                Text("Tic Tac Toe Game", style: whiteFont2),
+                SizedBox(
+                  width: 0,
+                  height: 15.0,
+                ),
+                Text(
+                  "@CREATED BY EDDYCODY",
+                  style: whiteFont2,
+                ),
+              ],
+            ),
+          )),
+        ],
+      )),
     );
   }
 }

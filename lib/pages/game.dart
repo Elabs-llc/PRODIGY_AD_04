@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tic_tac_toe/helpers/config.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -14,21 +14,6 @@ class _GameState extends State<Game> {
   int _oScore = 0;
   int _xScore = 0;
   int _filledBoxes = 0;
-  static var yellowFont = GoogleFonts.pressStart2p(
-    textStyle:
-        TextStyle(color: Color.fromARGB(255, 149, 226, 5), fontSize: 20.0),
-  );
-  static var wineFont = GoogleFonts.pressStart2p(
-    textStyle:
-        TextStyle(color: Color.fromARGB(255, 235, 11, 160), fontSize: 20.0),
-  );
-
-  static var whiteFont = GoogleFonts.pressStart2p(
-    textStyle: TextStyle(color: Colors.white, fontSize: 20.0),
-  );
-  static var whiteFont2 = GoogleFonts.pressStart2p(
-    textStyle: TextStyle(color: Colors.white, fontSize: 15.0),
-  );
 
   void _tapped(int index) {
     setState(() {
@@ -174,7 +159,7 @@ class _GameState extends State<Game> {
               Center(
                   child: Text(
                 'Score Board',
-                style: whiteFont,
+                style: Config.whiteFont,
               )),
               Center(
                 child: Padding(
@@ -184,8 +169,8 @@ class _GameState extends State<Game> {
                     children: [
                       Column(
                         children: [
-                          Text("Player O", style: yellowFont),
-                          Text(_oScore.toString(), style: whiteFont),
+                          Text("Player O", style: Config.yellowFont),
+                          Text(_oScore.toString(), style: Config.whiteFont),
                         ],
                       ),
                       SizedBox(
@@ -193,8 +178,8 @@ class _GameState extends State<Game> {
                       ),
                       Column(
                         children: [
-                          Text("Player X", style: wineFont),
-                          Text(_xScore.toString(), style: whiteFont),
+                          Text("Player X", style: Config.wineFont),
+                          Text(_xScore.toString(), style: Config.whiteFont),
                         ],
                       )
                     ],
@@ -218,7 +203,7 @@ class _GameState extends State<Game> {
                       child: Center(
                         child: Text(
                           displayCord[index],
-                          style: whiteFont,
+                          style: Config.whiteFont,
                         ),
                       ),
                     ),
@@ -233,14 +218,14 @@ class _GameState extends State<Game> {
                   width: 0,
                   height: 15.0,
                 ),
-                Text("Tic Tac Toe Game", style: whiteFont2),
+                Text("Tic Tac Toe Game", style: Config.whiteFont2),
                 SizedBox(
                   width: 0,
                   height: 15.0,
                 ),
                 Text(
                   "@CREATED BY EDDYCODY",
-                  style: whiteFont2,
+                  style: Config.whiteFont2,
                 ),
               ],
             ),

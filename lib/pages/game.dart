@@ -163,26 +163,28 @@ class _GameState extends State<Game> {
               )),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text("Player O", style: Config.yellowFont),
-                          Text(_oScore.toString(), style: Config.whiteFont),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 30.0,
-                      ),
-                      Column(
-                        children: [
-                          Text("Player X", style: Config.wineFont),
-                          Text(_xScore.toString(), style: Config.whiteFont),
-                        ],
-                      )
-                    ],
+                  padding: const EdgeInsets.all(15.0),
+                  child: Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text("Player O", style: Config.yellowFont),
+                            Text(_oScore.toString(), style: Config.whiteFont),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        Column(
+                          children: [
+                            Text("Player X", style: Config.wineFont),
+                            Text(_xScore.toString(), style: Config.whiteFont),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
